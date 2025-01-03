@@ -12,4 +12,13 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
+pool.getConnection((err, connection) => {
+    if (err) {
+        console.error('Error connecting to the database:', err.stack);
+        return;
+    }
+    console.log('Connected to the database as id ' + connection.threadId);
+    connection.release(); // Don't forget to release the connection back to the pool
+});
+
 module.exports = pool.promise();
