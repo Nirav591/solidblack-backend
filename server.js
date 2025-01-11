@@ -6,6 +6,8 @@ const visaRoutes = require('./routes/visaRoutes'); // Fixed issue here
 const authRoutes = require('./routes/authRoutes');
 const errorHandler = require('./utils/errorHandler');
 const coachingRoutes = require('./routes/coachingRoutes')
+const cors = require('cors');
+
 
 // Load environment variables
 dotenv.config();
