@@ -15,7 +15,15 @@ const isEmailExists = async (email) => {
   return rows.length > 0;
 };
 
+// Function to get all subscribers
+const getAllSubscribers = async () => {
+  const query = 'SELECT * FROM newsletter_subscribers';
+  const [rows] = await db.execute(query);
+  return rows;
+};
+
 module.exports = {
   addSubscriber,
-  isEmailExists
+  isEmailExists,
+  getAllSubscribers
 };

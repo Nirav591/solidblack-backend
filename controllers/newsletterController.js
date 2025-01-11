@@ -22,6 +22,18 @@ const subscribeNewsletter = async (req, res) => {
   }
 };
 
+// Controller function to get all newsletter subscribers
+const getSubscribers = async (req, res) => {
+  try {
+    const subscribers = await newsletterModel.getAllSubscribers();
+    res.status(200).json(subscribers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching subscribers', error });
+  }
+};
+
 module.exports = {
-  subscribeNewsletter
+  subscribeNewsletter,
+  getSubscribers
 };
