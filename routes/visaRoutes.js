@@ -1,14 +1,14 @@
 const express = require('express');
-const { addVisaRequest, getVisaRequests, getVisaRequest } = require('../controllers/visaController');
 const router = express.Router();
+const { addVisaRequest, getVisaRequests, getVisaRequest } = require('../controllers/visaController');
 
-// POST - Add Visa Request
-router.post('/add', addVisaRequest);
+// Add Visa Request (POST)
+router.post('/visa-request', addVisaRequest);
 
-// GET - Get All Visa Requests
-router.get('/', getVisaRequests);
+// Get All Visa Requests (GET)
+router.get('/visa-request', getVisaRequests);
 
-// GET - Get Visa Request by ID
-router.get('/:id', getVisaRequest);
+// Get Visa Request by ID (GET)
+router.get('/visa-request/:id', getVisaRequest);
 
 module.exports = router;

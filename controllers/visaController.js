@@ -1,4 +1,4 @@
-const { createVisaRequest, checkVisaRequestExists } = require('../models/visaModel');
+const { createVisaRequest, getAllVisaRequests, getVisaRequestById, checkVisaRequestExists } = require('../models/visaModel');
 
 // Add Visa Request (POST)
 const addVisaRequest = async (req, res) => {
@@ -33,4 +33,28 @@ const addVisaRequest = async (req, res) => {
   }
 };
 
-module.exports = { addVisaRequest };
+// Get All Visa Requests (GET)
+const getVisaRequests = async (req, res) => {
+  try {
+    const visaRequests = await getAllVisaRequests();
+    res.status(200).json(visaRequests);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get Visa Request by ID (GET)
+const getVisaRequest = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const visaRequest = await getVisaRequestById(id);
+    if (!visaRequest) {
+      return res.status(404).json({ message: 'Visa request not found' });
+    }
+    res.status(200).json(visaRequest);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { addVisaRequest, getVisaRequests, getVisaRequest };
