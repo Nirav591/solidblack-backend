@@ -21,7 +21,8 @@ app.use(bodyParser.json());
 
 const allowedOrigins = [
   'http://localhost:3000',        // Allow localhost
-  'http://solidblackabroad.com/',          // Allow another domain (example.com)
+  'http://solidblackabroad.com',          // Allow another domain (example.com)
+  "https://solidblackabroad.com"
 
 ];
 
