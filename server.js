@@ -15,6 +15,26 @@ const app = express();
 // Middleware
 app.use(bodyParser.json());
 
+const allowedOrigins = [
+  'http://localhost:3000',        // Allow localhost
+  'http://solidblackabroad.com/',          // Allow another domain (example.com)
+
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // If the origin is not specified (i.e., the request is from a local file, or it's a server-to-server request),
+    // allow it (since CORS can be an issue during development).
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('CORS policy does not allow access from this origin'), false);
+    }
+  },
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/visa', visaRoutes);
