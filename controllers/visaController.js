@@ -2,20 +2,15 @@ const { createVisaRequest, getAllVisaRequests, getVisaRequestById, checkVisaRequ
 
 // Add Visa Request (POST)
 const addVisaRequest = async (req, res) => {
-  const { fullName, email, phoneNumber } = req.body;
+  const { fullName, email, phoneNumber, country, service, qualifications, comments } = req.body;
 
-  // Debugging: Check if all required fields are available
-  console.log('Full Name:', fullName);
-  console.log('Email:', email);
-  console.log('Phone Number:', phoneNumber);
-
-  // Validate fields
-  if (!fullName || !email || !phoneNumber) {
-    return res.status(400).json({ message: "All fields (fullName, email, phoneNumber) are required" });
+  // Validate the required fields
+  if (!fullName || !email || !phoneNumber || !country || !service || !qualifications || !comments) {
+    return res.status(400).json({ message: 'All fields (fullName, email, phoneNumber, country, service, qualifications, comments) are required.' });
   }
 
   try {
-    // Check if visa request already exists by email or phone number
+    // Check if the visa request already exists by email or phone number
     const visaRequestExists = await checkVisaRequestExists(email, phoneNumber);
 
     if (visaRequestExists) {
@@ -23,12 +18,14 @@ const addVisaRequest = async (req, res) => {
     }
 
     // Create a new visa request
-    const visaRequest = { fullName, email, phoneNumber };  // Only include the necessary data
+    const visaRequest = { fullName, email, phoneNumber, country, service, qualifications, comments };
     const result = await createVisaRequest(visaRequest);
 
+    // Return success response with the inserted ID
     res.status(201).json({ message: 'Visa request created successfully', id: result.insertId });
+
   } catch (error) {
-    console.error(error);
+    console.error('Error creating visa request:', error);
     res.status(500).json({ error: error.message });
   }
 };
