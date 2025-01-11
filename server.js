@@ -43,6 +43,25 @@ app.use('/api/visa', visaRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/coaching', coachingRoutes);
 
+app.post('/api/subscribe', (req, res) => {
+  const { email } = req.body;
+
+  // Check if the email is valid
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  if (!emailPattern.test(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+  }
+
+  // Insert the email into the database
+  const query = 'INSERT INTO newsletter_subscribers (email) VALUES (?)';
+  db.query(query, [email], (err, result) => {
+      if (err) {
+          return res.status(500).json({ message: 'Error subscribing to the newsletter', error: err });
+      }
+      res.status(200).json({ message: 'Successfully subscribed to the newsletter!' });
+  });
+});
+
 
 // Error Handler
 app.use(errorHandler);
@@ -51,3 +70,5 @@ const PORT = process.env.PORT || 6320;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+
